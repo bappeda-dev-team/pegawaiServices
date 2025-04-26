@@ -1,0 +1,240 @@
+basePath: /
+definitions:
+  web.PegawaiCreateRequest:
+    description: Create Request Pegawai
+    properties:
+      id:
+        type: string
+      kode_opd:
+        type: string
+      nama_pegawai:
+        type: string
+      nip:
+        type: string
+    required:
+    - kode_opd
+    - nama_pegawai
+    - nip
+    type: object
+  web.PegawaiUpdateRequest:
+    description: Update Request Pegawai
+    properties:
+      id:
+        type: string
+      kode_opd:
+        type: string
+      nama_pegawai:
+        type: string
+      nip:
+        type: string
+    required:
+    - kode_opd
+    - nama_pegawai
+    - nip
+    type: object
+  web.WebResponse:
+    description: Web Response
+    properties:
+      code:
+        type: integer
+      data: {}
+      status:
+        type: string
+    type: object
+host: localhost:8001
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: API For Master Pegawai Services
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Pegawai Service API
+  version: "1.0"
+paths:
+  /pegawai/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new pegawai
+      parameters:
+      - description: Create Pegawai
+        in: body
+        name: pegawai
+        required: true
+        schema:
+          $ref: '#/definitions/web.PegawaiCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+      summary: Create Pegawai
+      tags:
+      - Pegawai
+  /pegawai/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing pegawai
+      parameters:
+      - description: Pegawai ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+      summary: Delete Pegawai
+      tags:
+      - Pegawai
+  /pegawai/detail/{id}:
+    get:
+      consumes:
+      - application/json
+      description: FindById an existing pegawai
+      parameters:
+      - description: Pegawai ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+      summary: FindById pegawai
+      tags:
+      - Pegawai
+  /pegawai/findall:
+    get:
+      consumes:
+      - application/json
+      description: FindAll an existing pegawai
+      parameters:
+      - description: Kode OPD
+        in: query
+        name: kode_opd
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+      summary: FindAll pegawai
+      tags:
+      - Pegawai
+  /pegawai/findbynip/{nip}:
+    get:
+      consumes:
+      - application/json
+      description: FindByNip an existing pegawai
+      parameters:
+      - description: Employee NIP
+        in: path
+        name: nip
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+      summary: FindByNip pegawai
+      tags:
+      - Pegawai
+  /pegawai/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update an existing pegawai
+      parameters:
+      - description: Pegawai ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Pegawai
+        in: body
+        name: pegawai
+        required: true
+        schema:
+          $ref: '#/definitions/web.PegawaiUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.WebResponse'
+      summary: Update Pegawai
+      tags:
+      - Pegawai
+schemes:
+- http
+swagger: "2.0"
