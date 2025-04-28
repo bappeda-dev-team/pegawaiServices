@@ -1,33 +1,22 @@
-# API E-KAK 
+# API Pegawai Service
 
 
 ### Kebutuhan
 
 - Go versi 1.23.0
-- MySQL versi 8.0.33
-- [golang-migrate](https://github.com/golang-migrate/migrate)
+- PostgreSQL 16
+- java 17
+- Flyway
 
 
 ### Cara install
 
-- buat database bernama db_pegawai
-
-- install golang-migrate di cmd
-
+- download flyway dan pastikan java versi lebih dari 17
 ```sh
-go install -tags 'mysql' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+brew install flyway
 ```
 
-- add create migration
-``` sh
-migrate create -ext sql -dir db/migrate create_new_table
-```
-
-- migrasi database
-
-```sh
-migrate -path db/migrate -database "mysql://root@tcp(localhost:3306)/db_pegawai" up
-```
+- buat database bernama db_opd
 
 - add echo framework
 ```sh
@@ -80,3 +69,9 @@ go get -d github.com/swaggo/swag/cmd/swag
 go get -u github.com/swaggo/echo-swagger
 ```
 
+###Maintenance Database
+- Untuk menambahkan table,buat file di folder db/migrations dan gunakan format yg ditentukan flyway
+```sh
+V1__create_table_a
+V2__create_table_b
+```

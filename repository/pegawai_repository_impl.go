@@ -17,7 +17,7 @@ func NewPegawaiRepositoryImpl() *PegawaiRepositoryImpl {
 }
 
 func (repository *PegawaiRepositoryImpl) Create(ctx context.Context, tx *sql.Tx, pegawai domain.Pegawai) (domain.Pegawai, error) {
-	script := "INSERT INTO tb_pegawai (id,nama, nip, kode_opd, status_pegawai) VALUES (?,?, ?, ?, ?)"
+	script := "INSERT INTO tb_pegawai (id,nama, nip, kode_opd, status_pegawai) VALUES ($1, $2, $3, $4, $5)"
 	_, err := tx.ExecContext(ctx, script, pegawai.Id, pegawai.Nama, pegawai.Nip, pegawai.KodeOpd, pegawai.StatusPegawai)
 	if err != nil {
 		return domain.Pegawai{}, err
@@ -27,21 +27,21 @@ func (repository *PegawaiRepositoryImpl) Create(ctx context.Context, tx *sql.Tx,
 }
 
 func (repository *PegawaiRepositoryImpl) Update(ctx context.Context, tx *sql.Tx, pegawai domain.Pegawai) domain.Pegawai {
-	script := "UPDATE tb_pegawai SET nama = ?, nip = ?, kode_opd = ?, status_pegawai = ? WHERE id = ?"
+	script := "UPDATE tb_pegawai SET nama = $1, nip = $2, kode_opd = $3, status_pegawai = $4 WHERE id = $5"
 	_, err := tx.ExecContext(ctx, script, pegawai.Nama, pegawai.Nip, pegawai.KodeOpd, pegawai.StatusPegawai, pegawai.Id)
 	helper.PanicIfError(err)
 	return pegawai
 }
 
 func (repository *PegawaiRepositoryImpl) Delete(ctx context.Context, tx *sql.Tx, id string) error {
-	script := "UPDATE tb_pegawai SET deleted_at = NOW() WHERE id = ?"
+	script := "UPDATE tb_pegawai SET deleted_at = NOW() WHERE id = $1"
 	_, err := tx.ExecContext(ctx, script, id)
 	helper.PanicIfError(err)
 	return nil
 }
 
 func (repository *PegawaiRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, id string) (domain.Pegawai, error) {
-	script := "SELECT id, nama, nip, kode_opd FROM tb_pegawai WHERE id = ?"
+	script := "SELECT id, nama, nip, kode_opd FROM tb_pegawai WHERE id = $1"
 	rows, err := tx.QueryContext(ctx, script, id)
 	helper.PanicIfError(err)
 	defer rows.Close()
@@ -55,7 +55,7 @@ func (repository *PegawaiRepositoryImpl) FindById(ctx context.Context, tx *sql.T
 }
 
 func (repository *PegawaiRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx, kodeOpd string) ([]domain.Pegawai, error) {
-	script := "SELECT id, nama, nip, kode_opd, created_at, updated_at, status_pegawai FROM tb_pegawai WHERE kode_opd = ? AND deleted_at IS NULL"
+	script := "SELECT id, nama, nip, kode_opd, created_at, updated_at, status_pegawai FROM tb_pegawai WHERE kode_opd = $1 AND deleted_at IS NULL"
 	rows, err := tx.QueryContext(ctx, script, kodeOpd)
 	helper.PanicIfError(err)
 	defer rows.Close()
@@ -71,7 +71,7 @@ func (repository *PegawaiRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx
 }
 
 func (repository *PegawaiRepositoryImpl) FindByNip(ctx context.Context, tx *sql.Tx, nip string) (domain.Pegawai, error) {
-	script := "SELECT id, nama, nip, kode_opd FROM tb_pegawai WHERE nip = ? AND deleted_at IS NULL"
+	script := "SELECT id, nama, nip, kode_opd FROM tb_pegawai WHERE nip = $1 AND deleted_at IS NULL"
 	rows, err := tx.QueryContext(ctx, script, nip)
 	helper.PanicIfError(err)
 	defer rows.Close()
