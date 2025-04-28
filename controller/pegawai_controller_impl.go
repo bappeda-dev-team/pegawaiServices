@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"pegawaiServices/model/web"
 	"pegawaiServices/service"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -19,7 +20,7 @@ func NewPegawaiControllerImpl(pegawaiService service.PegawaiService) *PegawaiCon
 // Create godoc
 // @Summary Create Pegawai
 // @Description Create a new pegawai
-// @Tags Pegawai
+// @Tags CREATE Pegawai
 // @Accept json
 // @Produce json
 // @Param pegawai body web.PegawaiCreateRequest true "Create Pegawai"
@@ -55,7 +56,7 @@ func (controller *PegawaiControllerImpl) Create(c echo.Context) error {
 // Update godoc
 // @Summary Update Pegawai
 // @Description Update an existing pegawai
-// @Tags Pegawai
+// @Tags UPDATE Pegawai
 // @Accept json
 // @Produce json
 // @Param id path string true "Pegawai ID"
@@ -70,7 +71,11 @@ func (controller *PegawaiControllerImpl) Update(c echo.Context) error {
 		return err
 	}
 
-	id := c.Param("id")
+	idString := c.Param("id")
+	id, err := strconv.Atoi(idString)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
 
 	PegawaiUpdateRequest.Id = id
 
@@ -96,7 +101,7 @@ func (controller *PegawaiControllerImpl) Update(c echo.Context) error {
 // Delete godoc
 // @Summary Delete Pegawai
 // @Description Delete an existing pegawai
-// @Tags Pegawai
+// @Tags DELETE Pegawai
 // @Accept json
 // @Produce json
 // @Param id path string true "Pegawai ID"
@@ -129,7 +134,7 @@ func (controller *PegawaiControllerImpl) Delete(c echo.Context) error {
 // FindById godoc
 // @Summary FindById pegawai
 // @Description FindById an existing pegawai
-// @Tags Pegawai
+// @Tags GET Pegawai
 // @Accept json
 // @Produce json
 // @Param id path string true "Pegawai ID"
@@ -161,7 +166,7 @@ func (controller *PegawaiControllerImpl) FindById(c echo.Context) error {
 // FindAll godoc
 // @Summary FindAll pegawai
 // @Description FindAll an existing pegawai
-// @Tags Pegawai
+// @Tags GET Pegawai
 // @Accept json
 // @Produce json
 // @Success 200 {object} web.WebResponse
@@ -193,7 +198,7 @@ func (controller *PegawaiControllerImpl) FindAll(c echo.Context) error {
 
 // @Summary FindByNip pegawai
 // @Description FindByNip an existing pegawai
-// @Tags Pegawai
+// @Tags GET Pegawai
 // @Accept json
 // @Produce json
 // @Param nip path string true "Employee NIP"

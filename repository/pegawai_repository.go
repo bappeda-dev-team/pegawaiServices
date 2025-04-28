@@ -13,4 +13,5 @@ type PegawaiRepository interface {
 	FindById(ctx context.Context, tx *sql.Tx, id string) (domain.Pegawai, error)
 	FindAll(ctx context.Context, tx *sql.Tx, kodeOpd string) ([]domain.Pegawai, error)
 	FindByNip(ctx context.Context, tx *sql.Tx, nip string) (domain.Pegawai, error)
+	FindByKodeOpd(ctx context.Context, tx *sql.Tx, kodeOpd string) (domain.Opd, error)
 }

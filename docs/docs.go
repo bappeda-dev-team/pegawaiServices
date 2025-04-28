@@ -34,7 +34,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Pegawai"
+                    "CREATE Pegawai"
                 ],
                 "summary": "Create Pegawai",
                 "parameters": [
@@ -80,7 +80,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Pegawai"
+                    "DELETE Pegawai"
                 ],
                 "summary": "Delete Pegawai",
                 "parameters": [
@@ -124,7 +124,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Pegawai"
+                    "GET Pegawai"
                 ],
                 "summary": "FindById pegawai",
                 "parameters": [
@@ -168,7 +168,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Pegawai"
+                    "GET Pegawai"
                 ],
                 "summary": "FindAll pegawai",
                 "parameters": [
@@ -211,7 +211,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Pegawai"
+                    "GET Pegawai"
                 ],
                 "summary": "FindByNip pegawai",
                 "parameters": [
@@ -255,7 +255,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Pegawai"
+                    "UPDATE Pegawai"
                 ],
                 "summary": "Update Pegawai",
                 "parameters": [
@@ -309,9 +309,6 @@ const docTemplate = `{
                 "nip"
             ],
             "properties": {
-                "id": {
-                    "type": "string"
-                },
                 "kode_opd": {
                     "type": "string"
                 },
@@ -320,6 +317,13 @@ const docTemplate = `{
                 },
                 "nip": {
                     "type": "string"
+                },
+                "status_pegawai": {
+                    "type": "string",
+                    "enum": [
+                        "valid",
+                        "not_valid"
+                    ]
                 }
             }
         },
@@ -333,7 +337,7 @@ const docTemplate = `{
             ],
             "properties": {
                 "id": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "kode_opd": {
                     "type": "string"
@@ -343,6 +347,16 @@ const docTemplate = `{
                 },
                 "nip": {
                     "type": "string"
+                },
+                "status_pegawai": {
+                    "type": "string",
+                    "enum": [
+                        "valid",
+                        "tidak_valid",
+                        "aktif",
+                        "non_aktif",
+                        "pensiun"
+                    ]
                 }
             }
         },

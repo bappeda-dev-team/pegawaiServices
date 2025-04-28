@@ -3,15 +3,13 @@ package service
 import (
 	"context"
 	"database/sql"
-	"fmt"
+	"math/rand"
 	"pegawaiServices/helper"
 	"pegawaiServices/model/domain"
 	"pegawaiServices/model/web"
 	"pegawaiServices/repository"
-	"time"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/google/uuid"
 )
 
 type PegawaiServiceImpl struct {
@@ -40,29 +38,34 @@ func (service *PegawaiServiceImpl) Create(ctx context.Context, request web.Pegaw
 	}
 	defer helper.CommitOrRollback(tx)
 
-	ts := time.Now().Format("060102150405")
-	currentYear := time.Now().Year()
-	u := uuid.New()
-	randomPart := u.String()[0:6]
-	id := fmt.Sprintf("PEG-%v-%v-%v", currentYear, ts, randomPart)
+	statusPegawai := "valid"
 
-	request.Id = id
+	_, err = service.pegawaiRepository.FindByKodeOpd(ctx, tx, request.KodeOpd)
+	if err != nil {
+		statusPegawai = "tidak_valid"
+	}
+
+	RandomNumber := rand.Intn(100000000000)
 
 	pegawai, err := service.pegawaiRepository.Create(ctx, tx, domain.Pegawai{
-		Id:      request.Id,
-		Nama:    request.Nama,
-		Nip:     request.Nip,
-		KodeOpd: request.KodeOpd,
+		Id:            RandomNumber,
+		Nama:          request.Nama,
+		Nip:           request.Nip,
+		KodeOpd:       request.KodeOpd,
+		StatusPegawai: statusPegawai,
 	})
 	if err != nil {
 		return web.PegawaiResponse{}, err
 	}
 
+	opd, _ := service.pegawaiRepository.FindByKodeOpd(ctx, tx, pegawai.KodeOpd)
+
 	return web.PegawaiResponse{
-		Id:      pegawai.Id,
-		Nama:    pegawai.Nama,
-		Nip:     pegawai.Nip,
-		KodeOpd: pegawai.KodeOpd,
+		Nama:          pegawai.Nama,
+		Nip:           pegawai.Nip,
+		KodeOpd:       pegawai.KodeOpd,
+		NamaOpd:       opd.NamaOpd,
+		StatusPegawai: pegawai.StatusPegawai,
 	}, nil
 }
 
@@ -78,18 +81,33 @@ func (service *PegawaiServiceImpl) Update(ctx context.Context, request web.Pegaw
 	}
 	defer helper.CommitOrRollback(tx)
 
+	statusPegawai := "valid"
+
+	_, err = service.pegawaiRepository.FindByKodeOpd(ctx, tx, request.KodeOpd)
+	if err != nil {
+		statusPegawai = "tidak_valid"
+	}
+
+	if request.StatusPegawai != "" {
+		statusPegawai = request.StatusPegawai
+	}
+
 	pegawai := service.pegawaiRepository.Update(ctx, tx, domain.Pegawai{
-		Id:      request.Id,
-		Nama:    request.Nama,
-		Nip:     request.Nip,
-		KodeOpd: request.KodeOpd,
+		Id:            request.Id,
+		Nama:          request.Nama,
+		Nip:           request.Nip,
+		KodeOpd:       request.KodeOpd,
+		StatusPegawai: statusPegawai,
 	})
 
+	opd, _ := service.pegawaiRepository.FindByKodeOpd(ctx, tx, pegawai.KodeOpd)
+
 	return web.PegawaiResponse{
-		Id:      pegawai.Id,
-		Nama:    pegawai.Nama,
-		Nip:     pegawai.Nip,
-		KodeOpd: pegawai.KodeOpd,
+		Nama:          pegawai.Nama,
+		Nip:           pegawai.Nip,
+		KodeOpd:       pegawai.KodeOpd,
+		NamaOpd:       opd.NamaOpd,
+		StatusPegawai: pegawai.StatusPegawai,
 	}, nil
 }
 
@@ -140,13 +158,23 @@ func (service *PegawaiServiceImpl) FindAll(ctx context.Context, kodeOpd string) 
 		return []web.PegawaiResponse{}, err
 	}
 
+	if len(pegawais) == 0 {
+		return []web.PegawaiResponse{}, nil
+	}
+
+	opd, _ := service.pegawaiRepository.FindByKodeOpd(ctx, tx, pegawais[0].KodeOpd)
+
 	pegawaiResponses := []web.PegawaiResponse{}
 	for _, pegawai := range pegawais {
 		pegawaiResponses = append(pegawaiResponses, web.PegawaiResponse{
-			Id:      pegawai.Id,
-			Nama:    pegawai.Nama,
-			Nip:     pegawai.Nip,
-			KodeOpd: pegawai.KodeOpd,
+			Id:            pegawai.Id,
+			Nama:          pegawai.Nama,
+			Nip:           pegawai.Nip,
+			KodeOpd:       pegawai.KodeOpd,
+			NamaOpd:       opd.NamaOpd,
+			StatusPegawai: pegawai.StatusPegawai,
+			CreatedAt:     pegawai.CreatedAt,
+			UpdatedAt:     pegawai.UpdatedAt,
 		})
 	}
 
@@ -166,9 +194,10 @@ func (service *PegawaiServiceImpl) FindByNip(ctx context.Context, nip string) (w
 	}
 
 	return web.PegawaiResponse{
-		Id:      pegawai.Id,
-		Nama:    pegawai.Nama,
-		Nip:     pegawai.Nip,
-		KodeOpd: pegawai.KodeOpd,
+		Id:            pegawai.Id,
+		Nama:          pegawai.Nama,
+		Nip:           pegawai.Nip,
+		KodeOpd:       pegawai.KodeOpd,
+		StatusPegawai: pegawai.StatusPegawai,
 	}, nil
 }

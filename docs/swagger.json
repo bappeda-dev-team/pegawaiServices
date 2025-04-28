@@ -31,7 +31,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Pegawai"
+                    "CREATE Pegawai"
                 ],
                 "summary": "Create Pegawai",
                 "parameters": [
@@ -77,7 +77,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Pegawai"
+                    "DELETE Pegawai"
                 ],
                 "summary": "Delete Pegawai",
                 "parameters": [
@@ -121,7 +121,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Pegawai"
+                    "GET Pegawai"
                 ],
                 "summary": "FindById pegawai",
                 "parameters": [
@@ -165,7 +165,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Pegawai"
+                    "GET Pegawai"
                 ],
                 "summary": "FindAll pegawai",
                 "parameters": [
@@ -208,7 +208,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Pegawai"
+                    "GET Pegawai"
                 ],
                 "summary": "FindByNip pegawai",
                 "parameters": [
@@ -252,7 +252,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Pegawai"
+                    "UPDATE Pegawai"
                 ],
                 "summary": "Update Pegawai",
                 "parameters": [
@@ -306,9 +306,6 @@
                 "nip"
             ],
             "properties": {
-                "id": {
-                    "type": "string"
-                },
                 "kode_opd": {
                     "type": "string"
                 },
@@ -317,6 +314,13 @@
                 },
                 "nip": {
                     "type": "string"
+                },
+                "status_pegawai": {
+                    "type": "string",
+                    "enum": [
+                        "valid",
+                        "not_valid"
+                    ]
                 }
             }
         },
@@ -330,7 +334,7 @@
             ],
             "properties": {
                 "id": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "kode_opd": {
                     "type": "string"
@@ -340,6 +344,16 @@
                 },
                 "nip": {
                     "type": "string"
+                },
+                "status_pegawai": {
+                    "type": "string",
+                    "enum": [
+                        "valid",
+                        "tidak_valid",
+                        "aktif",
+                        "non_aktif",
+                        "pensiun"
+                    ]
                 }
             }
         },

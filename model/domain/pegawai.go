@@ -1,8 +1,11 @@
 package domain
 
 type Pegawai struct {
-	Id      string
-	Nama    string
-	Nip     string
-	KodeOpd string
+	Id            int
+	Nama          string
+	Nip           string
+	KodeOpd       string
+	StatusPegawai string
+	CreatedAt     string
+	UpdatedAt     string
 }

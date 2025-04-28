@@ -20,13 +20,13 @@ go install -tags 'mysql' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
 
 - add create migration
 ``` sh
-migrate create -ext sql -dir db create_new_table
+migrate create -ext sql -dir db/migrate create_new_table
 ```
 
 - migrasi database
 
 ```sh
-migrate -path db -database "mysql://root@tcp(localhost:3306)/db_pegawai" up
+migrate -path db/migrate -database "mysql://root@tcp(localhost:3306)/db_pegawai" up
 ```
 
 - add echo framework

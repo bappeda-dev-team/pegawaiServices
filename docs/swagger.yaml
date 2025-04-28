@@ -3,13 +3,16 @@ definitions:
   web.PegawaiCreateRequest:
     description: Create Request Pegawai
     properties:
-      id:
-        type: string
       kode_opd:
         type: string
       nama_pegawai:
         type: string
       nip:
+        type: string
+      status_pegawai:
+        enum:
+        - valid
+        - not_valid
         type: string
     required:
     - kode_opd
@@ -20,12 +23,20 @@ definitions:
     description: Update Request Pegawai
     properties:
       id:
-        type: string
+        type: integer
       kode_opd:
         type: string
       nama_pegawai:
         type: string
       nip:
+        type: string
+      status_pegawai:
+        enum:
+        - valid
+        - tidak_valid
+        - aktif
+        - non_aktif
+        - pensiun
         type: string
     required:
     - kode_opd
@@ -84,7 +95,7 @@ paths:
             $ref: '#/definitions/web.WebResponse'
       summary: Create Pegawai
       tags:
-      - Pegawai
+      - CREATE Pegawai
   /pegawai/delete/{id}:
     delete:
       consumes:
@@ -113,7 +124,7 @@ paths:
             $ref: '#/definitions/web.WebResponse'
       summary: Delete Pegawai
       tags:
-      - Pegawai
+      - DELETE Pegawai
   /pegawai/detail/{id}:
     get:
       consumes:
@@ -142,7 +153,7 @@ paths:
             $ref: '#/definitions/web.WebResponse'
       summary: FindById pegawai
       tags:
-      - Pegawai
+      - GET Pegawai
   /pegawai/findall:
     get:
       consumes:
@@ -170,7 +181,7 @@ paths:
             $ref: '#/definitions/web.WebResponse'
       summary: FindAll pegawai
       tags:
-      - Pegawai
+      - GET Pegawai
   /pegawai/findbynip/{nip}:
     get:
       consumes:
@@ -199,7 +210,7 @@ paths:
             $ref: '#/definitions/web.WebResponse'
       summary: FindByNip pegawai
       tags:
-      - Pegawai
+      - GET Pegawai
   /pegawai/update/{id}:
     put:
       consumes:
@@ -234,7 +245,7 @@ paths:
             $ref: '#/definitions/web.WebResponse'
       summary: Update Pegawai
       tags:
-      - Pegawai
+      - UPDATE Pegawai
 schemes:
 - http
 swagger: "2.0"
