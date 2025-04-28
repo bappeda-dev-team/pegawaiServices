@@ -9,11 +9,6 @@ definitions:
         type: string
       nip:
         type: string
-      status_pegawai:
-        enum:
-        - valid
-        - not_valid
-        type: string
     required:
     - kode_opd
     - nama_pegawai

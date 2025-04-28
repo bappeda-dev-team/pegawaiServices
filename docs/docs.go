@@ -317,13 +317,6 @@ const docTemplate = `{
                 },
                 "nip": {
                     "type": "string"
-                },
-                "status_pegawai": {
-                    "type": "string",
-                    "enum": [
-                        "valid",
-                        "not_valid"
-                    ]
                 }
             }
         },
